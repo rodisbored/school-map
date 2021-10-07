@@ -1,0 +1,40 @@
+<p>
+  <%= form_tag(school_map_index_url, method: :get) do -%>
+    <%= text_field_tag(:search, params[:search], maxlength: 200) %>
+    <%= submit_tag('🔍') %>
+  <% end -%>
+  <div id='school-map'></div>
+</p>
+
+<script>
+  let map;
+  const schools = <%= locations.to_json.html_safe %>;
+
+  function initMap() {
+    const bounds = new google.maps.LatLngBounds();
+
+    map = new google.maps.Map(document.getElementById("school-map"), {
+      center: { lat: 0, lng: 0 },
+      zoom: 3,
+      minZoom: 2,
+    });
+
+    schools.map((school) => {
+      const latLng = { lat: school["location.lat"], lng: school["location.lon"] }
+      if (latLng.lat && latLng.lng) {
+        new google.maps.Marker({
+          position: latLng,
+          map,
+          title: school["school.name"],
+        });
+
+        bounds.extend(latLng);
+      }
+    });
+    map.fitBounds(bounds)
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initMap()
+  });
+</script>

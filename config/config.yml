@@ -1,0 +1,16 @@
+# Store non-secret configs in this file. This file is loaded
+# via the `config.rb` initializer and exposed via a global
+# `CONFIG` hash
+
+defaults: &defaults
+  college_scorecard_url: <%= ENV['COLLEGE_SCORECARD_URL'] || 'api.data.gov/ed/collegescorecard' %>
+  college_scorecard_api_version: <%= ENV['COLLEGE_SCORECARD_API_VERSION'] || 'v1' %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
