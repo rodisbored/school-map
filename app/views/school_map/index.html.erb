@@ -19,19 +19,21 @@
       minZoom: 2,
     });
 
-    schools.map((school) => {
-      const latLng = { lat: school["location.lat"], lng: school["location.lon"] }
-      if (latLng.lat && latLng.lng) {
-        new google.maps.Marker({
-          position: latLng,
-          map,
-          title: school["school.name"],
-        });
+    if (schools.length !== 0) {
+      schools.map((school) => {
+        const latLng = { lat: school["location.lat"], lng: school["location.lon"] }
+        if (latLng.lat && latLng.lng) {
+          new google.maps.Marker({
+            position: latLng,
+            map,
+            title: school["school.name"],
+          });
 
-        bounds.extend(latLng);
-      }
-    });
-    map.fitBounds(bounds)
+          bounds.extend(latLng);
+        }
+      });
+      map.fitBounds(bounds)
+    }
   };
 
   document.addEventListener("DOMContentLoaded", () => {
